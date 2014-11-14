@@ -23,4 +23,23 @@
       <xsd:element name="Budget_Notes"   type="xsd:string" minOccurs="0"/>
     </xsd:sequence>
   </xsd:complexType>
+  
+    <xsd:element name="AccountTypes" type="cat:AccountTypeRecords"/>
+
+  <xsd:complexType name="AccountTypeRecords">
+    <xsd:sequence>
+      <xsd:element name="AccountType" 
+                  type="cat:BudgetRecord" 
+                  minOccurs="0" 
+                  maxOccurs="unbounded"/>
+      </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="AccountTypeRecord">
+    <xsd:sequence>
+      <xsd:element name="Account_Type_ID"    type="xsd:int"/>
+      <xsd:element name="Account_Type_Name"    type="xsd:string"/>
+      <xsd:element name="Asset"   type="xsd:boolean" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
 </xsd:schema>
