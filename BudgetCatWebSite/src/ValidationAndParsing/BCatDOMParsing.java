@@ -1,10 +1,12 @@
 package ValidationAndParsing;
 import java.util.*;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.Attr;
 import org.w3c.dom.NodeList;
+
 import javax.xml.parsers.*;
 
 	public class BCatDOMParsing {
@@ -13,8 +15,9 @@ import javax.xml.parsers.*;
 		 * @param args
 		 * @throws Exception 
 		 */
-		public static Map<String, String> getParsedData(String file) {
-			Map<String, String> map = new HashMap<String, String>();
+		public static List<HashMap<String,String>> getParsedData(String file) {
+			List<HashMap<String,String>> maps = new ArrayList<HashMap<String,String>>();
+			HashMap<String, String> map = new HashMap<String, String>();
 			
 			try{	
 				
@@ -30,11 +33,13 @@ import javax.xml.parsers.*;
 			Node documentNode = DocumentNodeGet(theDocument);
 			
 				String nodeName = documentNode.getNodeName();
-				map.put("Node_Name", nodeName);
+				
 			   	System.out.println("Document node name = " + nodeName);
 				NodeList ElementArray = documentNode.getChildNodes();
 				for(int i = 0; i < ElementArray.getLength(); i++){
 						NodeList CATEGORYELEMENTS = ElementArray.item(i).getChildNodes();
+						map = new HashMap<String, String>();
+						
 						for(int j=0; j < CATEGORYELEMENTS.getLength(); j++)
 						{
 							Node currentNode = CATEGORYELEMENTS.item(j);
@@ -46,7 +51,10 @@ import javax.xml.parsers.*;
 								System.out.println(columnName + " = " + columnValue);
 							}
 						}
-						
+						if(map.size() > 0){
+						map.put("Node_Name", nodeName);
+						maps.add(map);
+						}
 						System.out.println();
 					}
 				
@@ -56,7 +64,7 @@ import javax.xml.parsers.*;
 				System.out.println("Error in parsing: " + E.getMessage());
 			}
 			
-			return map;
+			return maps;
 		}
 		
 	    public static Document FileRootDocumentGet(String FileName) 

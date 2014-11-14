@@ -10,7 +10,7 @@ import javax.xml.validation.Validator;
 	 
 	import org.xml.sax.SAXException;
 	 
-public class validateXSD {
+public class ValidateXSD {
 	
 	private static final String BUDGETCATXDS = "SchemaAndDTD/BudgetCat.xsd";
 	    public static boolean validateXMLAgainstSchema(String file) {

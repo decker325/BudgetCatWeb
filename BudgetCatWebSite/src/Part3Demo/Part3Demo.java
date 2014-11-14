@@ -1,9 +1,12 @@
 package Part3Demo;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import H2.H2;
 import ValidationAndParsing.BCatDOMParsing;
-import ValidationAndParsing.validateXSD;
+import ValidationAndParsing.ValidateXSD;
+import ValidationAndParsing.XMLDataInjection;
 
 public class Part3Demo {
 	public static void main(String[] args){
@@ -15,10 +18,11 @@ public class Part3Demo {
 	
 	Boolean validXML = false;
 	//validate xml against schema before parsing and adding data to database
-	validXML = validateXSD.validateXMLAgainstSchema("XML/Budgets.xml");
+	validXML = ValidateXSD.validateXMLAgainstSchema("XML/Users.xml");
 	//get the parsed data for the xml file if the schema validated
 	if(validXML){
-		Map<String, String> map = BCatDOMParsing.getParsedData("XML/Budgets.xml");
+		List<HashMap<String,String>> maps = BCatDOMParsing.getParsedData("XML/Users.xml");
+		XMLDataInjection.injectData(maps);
 	}
 	}
 }
