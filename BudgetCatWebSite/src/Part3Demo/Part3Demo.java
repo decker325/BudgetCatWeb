@@ -1,5 +1,8 @@
 package Part3Demo;
+import java.util.Map;
+
 import H2.H2;
+import ValidationAndParsing.BCatDOMParsing;
 import ValidationAndParsing.validateXSD;
 
 public class Part3Demo {
@@ -10,7 +13,12 @@ public class Part3Demo {
 	// Add tables to the database if they don't already exist
 	H2.createTables();
 	
+	Boolean validXML = false;
 	//validate xml against schema before parsing and adding data to database
-	validateXSD.validateXMLAgainstSchema("XML/Budgets.xml");
+	validXML = validateXSD.validateXMLAgainstSchema("XML/Budgets.xml");
+	//get the parsed data for the xml file if the schema validated
+	if(validXML){
+		Map<String, String> map = BCatDOMParsing.getParsedData("XML/Budgets.xml");
+	}
 	}
 }

@@ -13,12 +13,9 @@ import javax.xml.parsers.*;
 		 * @param args
 		 * @throws Exception 
 		 */
-		public static void main(String[] args) {
-			// TODO Auto-generated method stub
-			String[] files = {"XML/Budgets.xml"};
-			int c = 0;
-			while(c < files.length)
-			{
+		public static Map<String, String> getParsedData(String file) {
+			Map<String, String> map = new HashMap<String, String>();
+			
 			try{	
 				
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -27,12 +24,14 @@ import javax.xml.parsers.*;
 			
 			factory.setNamespaceAware(true);
 		
-				Document theDocument = FileRootDocumentGet(files[c]);
+				Document theDocument = FileRootDocumentGet(file);
 			
 			
 			Node documentNode = DocumentNodeGet(theDocument);
 			
-			   	System.out.println("Document node name = " + documentNode.getNodeName());
+				String nodeName = documentNode.getNodeName();
+				map.put("Node_Name", nodeName);
+			   	System.out.println("Document node name = " + nodeName);
 				NodeList ElementArray = documentNode.getChildNodes();
 				for(int i = 0; i < ElementArray.getLength(); i++){
 						NodeList CATEGORYELEMENTS = ElementArray.item(i).getChildNodes();
@@ -41,7 +40,10 @@ import javax.xml.parsers.*;
 							Node currentNode = CATEGORYELEMENTS.item(j);
 							if(!currentNode.getNodeName().equalsIgnoreCase("#text"))
 							{
-								System.out.println(currentNode.getNodeName() + " = " + currentNode.getTextContent());
+								String columnName = currentNode.getNodeName();
+								String columnValue = currentNode.getTextContent();
+								map.put(columnName, columnValue);
+								System.out.println(columnName + " = " + columnValue);
 							}
 						}
 						
@@ -53,9 +55,8 @@ import javax.xml.parsers.*;
 			} catch (Exception E){
 				System.out.println("Error in parsing: " + E.getMessage());
 			}
-			c++;
-			}
 			
+			return map;
 		}
 		
 	    public static Document FileRootDocumentGet(String FileName) 
