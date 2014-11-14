@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<x:Budgets xmlns:x="urn:BudgetCat">
+   <Budget>
+      <Budget_ID>1</Budget_ID>
+      <User_ID>1</User_ID>
+      <Budget_Name>TestBudget1</Budget_Name>
+      <Budget_File_Name>TestBudget2.xml</Budget_File_Name>
+      <Budget_Date>2000-10-01</Budget_Date>
+      <Budget_Notes>Budgets are awesome.</Budget_Notes>
+   </Budget>
+
+   <Budget>
+      <Budget_ID>2</Budget_ID>
+      <User_ID>2</User_ID>
+      <Budget_Name>TestBudget2</Budget_Name>
+      <Budget_File_Name>TestBudget2.xml</Budget_File_Name>
+      <Budget_Date>2000-10-01</Budget_Date>
+   </Budget>
+   
+</x:Budgets>
