@@ -34,31 +34,36 @@ import javax.xml.parsers.*;
 			
 				String nodeName = documentNode.getNodeName();
 				
-			   	System.out.println("Document node name = " + nodeName);
+			    //System.out.println("Document node name = " + nodeName);
 				NodeList ElementArray = documentNode.getChildNodes();
 				for(int i = 0; i < ElementArray.getLength(); i++){
 						NodeList CATEGORYELEMENTS = ElementArray.item(i).getChildNodes();
+						String categoryNodeName = ElementArray.item(i).getNodeName();
+						if(!categoryNodeName.equalsIgnoreCase("#text"))
+						{
+							//System.out.println("Element Node Name: " + categoryNodeName);
+						}
 						map = new HashMap<String, String>();
 						
 						for(int j=0; j < CATEGORYELEMENTS.getLength(); j++)
 						{
 							Node currentNode = CATEGORYELEMENTS.item(j);
-							if(!currentNode.getNodeName().equalsIgnoreCase("#text"))
+							String columnName = currentNode.getNodeName();
+							if(!columnName.equalsIgnoreCase("#text"))
 							{
-								String columnName = currentNode.getNodeName();
 								String columnValue = currentNode.getTextContent();
 								map.put(columnName, columnValue);
-								System.out.println(columnName + " = " + columnValue);
+								//System.out.println(columnName + " = " + columnValue);
 							}
 						}
 						if(map.size() > 0){
-						map.put("Node_Name", nodeName);
+						map.put("Node_Name", categoryNodeName);
 						maps.add(map);
 						}
 						System.out.println();
 					}
 				
-				System.out.println("Parsing complete");
+				//System.out.println("Parsing complete");
 			
 			} catch (Exception E){
 				System.out.println("Error in parsing: " + E.getMessage());

@@ -12,12 +12,14 @@ import javax.xml.validation.Validator;
 	 
 public class ValidateXSD {
 	
-	private static final String BUDGETCATXDS = "SchemaAndDTD/BudgetCat.xsd";
+	private static final String BUDGETCATXDS = "SchemaAndDTD/BudgetCat2.xsd";
 	    public static boolean validateXMLAgainstSchema(String file) {
 	      	
 	        boolean valid = false;
 	        valid = validateXMLSchema(file);
-	        System.out.println(file + " validates against " + BUDGETCATXDS + " ? " + valid);
+	        //if(!valid){
+	        	System.out.println(file + " validates against " + BUDGETCATXDS + " ? " + valid);
+	       // }
 	        
 	        return valid;
 	      }

@@ -29,7 +29,7 @@
   <xsd:complexType name="AccountTypeRecords">
     <xsd:sequence>
       <xsd:element name="AccountType" 
-                  type="cat:BudgetRecord" 
+                  type="cat:AccountTypeRecord" 
                   minOccurs="0" 
                   maxOccurs="unbounded"/>
       </xsd:sequence>
@@ -63,4 +63,48 @@
       <xsd:element name="Last_Log_In" type="xsd:date"/>
     </xsd:sequence>
   </xsd:complexType>
+  
+  <xsd:element name="Accounts" type="cat:AccountRecords"/>
+
+  <xsd:complexType name="AccountRecords">
+    <xsd:sequence>
+      <xsd:element name="Account" 
+                  type="cat:AccountRecord" 
+                  minOccurs="0" 
+                  maxOccurs="unbounded"/>
+      </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="AccountRecord">
+    <xsd:sequence>
+      <xsd:element name="Account_ID"    type="xsd:int"/>
+      <xsd:element name="User_ID"    type="xsd:int"/>
+      <xsd:element name="Account_Name"    type="xsd:string"/>
+      <xsd:element name="Account_Type_ID"    type="xsd:int"/>
+      <xsd:element name="Balance"    type="xsd:double" />
+      <xsd:element name="Balance_Goal"    type="xsd:double" minOccurs="0"/>
+      <xsd:element name="Interest_Amount" type="xsd:double"/>
+      <xsd:element name="Notes"    type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:element name="Categories" type="cat:CategoryRecords"/>
+
+  <xsd:complexType name="CategoryRecords">
+    <xsd:sequence>
+      <xsd:element name="Category" 
+                  type="cat:CategoryRecord" 
+                  minOccurs="0" 
+                  maxOccurs="unbounded"/>
+      </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="CategoryRecord">
+    <xsd:sequence>
+      <xsd:element name="Category_ID"    type="xsd:int"/>
+      <xsd:element name="Category_Name"    type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  
 </xsd:schema>

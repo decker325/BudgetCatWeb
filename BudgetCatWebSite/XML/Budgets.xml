@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<x:Budgets xmlns:x="urn:BudgetCat">
+<x:BudgetCat xmlns:x="urn:BudgetCat">
    <Budget>
       <Budget_ID>1</Budget_ID>
       <User_ID>1</User_ID>
@@ -17,4 +17,4 @@
       <Budget_Date>2000-10-01</Budget_Date>
    </Budget>
    
-</x:Budgets>
+</x:BudgetCat>
