@@ -3,29 +3,11 @@ package ORM;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
+import Data.Budget;
 
 public class BudgetDB {
 	
-	public static boolean injectData(Map<String, String> map){
-		boolean dataInjected = true;
-		try{
-			String budgetName = map.get("Budget_Name");
-			int userID = Integer.parseInt(map.get("User_ID"));
-			Date date = new SimpleDateFormat("yyyy-dd-mm").parse(map.get("Budget_Date"));
-			String budgetFileName = map.get("Budget_File_Name");
-			addBudget(budgetName, userID, date, budgetFileName);
-		}catch (Exception e){
-			System.out.println("There was a problem injecting xml data in BudgetDB: "+ e);
-			dataInjected = false;
-		}
-		return dataInjected;
-	}
-	
-	public static boolean addBudget(String budgetName, int userID, Date date, String budgetFileName){
+	public static boolean add(Budget budget){
 		boolean rowAdded = true;
 		try{
 			
@@ -36,13 +18,14 @@ public class BudgetDB {
 			
 			conn = DriverManager.getConnection("jdbc:h2:tcp://localhost/~/BudgetID", "decker233", "sammy");
 			
-			String sql = "INSERT INTO BUDGET (BUDGET_NAME, USER_ID, BUDGET_DATE, BUDGET_FILE_NAME) VALUES (?, ?, ?, ?)";
+			String sql = "INSERT INTO BUDGET (Budget_ID, BUDGET_NAME, USER_ID, BUDGET_DATE, BUDGET_FILE_NAME) VALUES (?, ?, ?, ?, ?)";
 			
 			stmt = conn.prepareStatement(sql);
-			stmt.setString(1, budgetName);
-			stmt.setInt(2, userID);
-			stmt.setDate(3, new java.sql.Date(date.getTime()));
-			stmt.setString(4, budgetName);
+			stmt.setInt(1, budget.budgetID);
+			stmt.setString(2, budget.budgetName);
+			stmt.setInt(3, budget.userID);
+			stmt.setDate(4, budget.date);
+			stmt.setString(5, budget.budgetName);
 			
 			stmt.executeUpdate();
 			conn.close();
@@ -52,5 +35,61 @@ public class BudgetDB {
 			rowAdded = false;
 		}
 		return rowAdded;
+	}
+	
+	public static boolean remove(Budget budget){
+		boolean rowRemoved = true;
+		try{
+			
+			PreparedStatement stmt = null;
+			Connection conn = null;
+			
+			Class.forName("org.h2.Driver");
+			
+			conn = DriverManager.getConnection("jdbc:h2:tcp://localhost/~/BudgetID", "decker233", "sammy");
+			
+			String sql = "DELETE FROM BUDGET WHERE Budget_ID=?";
+			
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, budget.budgetID);
+			
+			stmt.executeUpdate();
+			conn.close();
+			
+		}catch (Exception e){
+			System.out.println("There was a problem removing data in BudgetDB: "+ e);
+			rowRemoved = false;
+		}
+		return rowRemoved;
+	}
+	
+	public static boolean update(Budget budget){
+		boolean rowUpdated = true;
+		try{
+			
+			PreparedStatement stmt = null;
+			Connection conn = null;
+			
+			Class.forName("org.h2.Driver");
+			
+			conn = DriverManager.getConnection("jdbc:h2:tcp://localhost/~/BudgetID", "decker233", "sammy");
+			
+			String sql = "UPDATE BUDGET SET BUDGET_NAME=?, USER_ID=?, BUDGET_DATE=?, BUDGET_FILE_NAME=? WHERE Budget_ID=?";
+			
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, budget.budgetName);
+			stmt.setInt(2, budget.userID);
+			stmt.setDate(3, budget.date);
+			stmt.setString(4, budget.budgetName);
+			stmt.setInt(5, budget.budgetID);
+			
+			stmt.executeUpdate();
+			conn.close();
+			
+		}catch (Exception e){
+			System.out.println("There was a problem updating data in BudgetDB: "+ e);
+			rowUpdated = false;
+		}
+		return rowUpdated;
 	}
 }

@@ -5,28 +5,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.util.Map;
 
+import Data.Account;
+
 public class AccountDB {
-	public static boolean injectData(Map<String, String> map){
-		boolean dataInjected = true;
-		try{
-			int accountID = Integer.parseInt(map.get("Account_ID"));
-			int userID = Integer.parseInt(map.get("User_ID"));
-			String accountName = map.get("Account_Name");
-			int accountTypeID = Integer.parseInt(map.get("Account_Type_ID"));
-			Double balance = Double.parseDouble(map.get("Balance"));
-			Double balanceGoal = Double.parseDouble(map.get("Balance_Goal"));;
-			Double interestAmount = Double.parseDouble(map.get("Interest_Amount"));;
-			String notes = map.get("Notes");
-			
-			addAccountType(accountID, userID, accountName, accountTypeID, balance, balanceGoal, interestAmount, notes);
-		}catch (Exception e){
-			System.out.println("There was a problem injecting xml data in BudgetDB: "+ e);
-			dataInjected = false;
-		}
-		return dataInjected;
-	}
 	
-	public static boolean addAccountType(int accountID, int userID, String accountName,int accountTypeID, Double balance, Double balanceGoal, Double interestAmount, String notes){
+	public static boolean add(Account account){
 		boolean rowAdded = true;
 		try{
 			
@@ -37,25 +20,85 @@ public class AccountDB {
 			
 			conn = DriverManager.getConnection("jdbc:h2:tcp://localhost/~/BudgetID", "decker233", "sammy");
 			
-			String sql = "INSERT INTO Account (Account_ID, User_ID, Account_Name, Account_Type_ID, Balance, Balance_Goal, Interest_Amount, Notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO ACCOUNT (Account_ID, User_ID, Account_Name, Account_Type_ID, Balance, Balance_Goal, Interest_Amount, Notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 			
 			stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, accountID);
-			stmt.setInt(2, userID);
-			stmt.setString(3, accountName);
-			stmt.setInt(4, accountTypeID);
-			stmt.setDouble(5, balance);
-			stmt.setDouble(6, balanceGoal);
-			stmt.setDouble(7, interestAmount);
-			stmt.setString(8, notes);
+			stmt.setInt(1, account.accountID);
+			stmt.setInt(2, account.userID);
+			stmt.setString(3, account.accountName);
+			stmt.setInt(4, account.accountTypeID);
+			stmt.setDouble(5, account.balance);
+			stmt.setDouble(6, account.balanceGoal);
+			stmt.setDouble(7, account.interestAmount);
+			stmt.setString(8, account.notes);
 			
 			stmt.executeUpdate();
 			conn.close();
 			
 		}catch (Exception e){
-			System.out.println("There was a problem adding data in AccountTypeDB: "+ e);
+			System.out.println("There was a problem adding data in AccountDB: "+ e);
 			rowAdded = false;
 		}
 		return rowAdded;
+	}
+	
+	public static boolean remove(Account account){
+		boolean rowRemoved = true;
+		try{
+			
+			PreparedStatement stmt = null;
+			Connection conn = null;
+			
+			Class.forName("org.h2.Driver");
+			
+			conn = DriverManager.getConnection("jdbc:h2:tcp://localhost/~/BudgetID", "decker233", "sammy");
+			
+			String sql = "DELETE FROM ACCOUNT WHERE Account_ID=?";
+			
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, account.accountID);
+			
+			stmt.executeUpdate();
+			conn.close();
+			
+		}catch (Exception e){
+			System.out.println("There was a problem removing data in AccountDB: "+ e);
+			rowRemoved = false;
+		}
+		return rowRemoved;
+	}
+	
+	public static boolean update(Account account){
+		boolean rowUpdated = true;
+		try{
+			
+			PreparedStatement stmt = null;
+			Connection conn = null;
+			
+			Class.forName("org.h2.Driver");
+			
+			conn = DriverManager.getConnection("jdbc:h2:tcp://localhost/~/BudgetID", "decker233", "sammy");
+			
+			String sql = "UPDATE Account SET User_ID=?, Account_Name=?, Account_Type_ID=?, Balance=?, Balance_Goal=?, Interest_Amount=?, Notes WHERE Account_ID=?";
+			
+			stmt = conn.prepareStatement(sql);
+			
+			stmt.setInt(1, account.userID);
+			stmt.setString(2, account.accountName);
+			stmt.setInt(3, account.accountTypeID);
+			stmt.setDouble(4, account.balance);
+			stmt.setDouble(5, account.balanceGoal);
+			stmt.setDouble(6, account.interestAmount);
+			stmt.setString(7, account.notes);
+			stmt.setInt(8, account.accountID);
+			
+			stmt.executeUpdate();
+			conn.close();
+			
+		}catch (Exception e){
+			System.out.println("There was a problem updating data in AccountDB: "+ e);
+			rowUpdated = false;
+		}
+		return rowUpdated;
 	}
 }

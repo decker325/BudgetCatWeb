@@ -12,25 +12,33 @@ import javax.xml.validation.Validator;
 	 
 public class ValidateXSD {
 	
-	private static final String BUDGETCATXDS = "SchemaAndDTD/BudgetCat2.xsd";
-	    public static boolean validateXMLAgainstSchema(String file) {
+	private String BudgetCatXDS = "SchemaAndDTD/BudgetCat2.xsd";
+	
+	private ValidateXSD(){
+		
+	}
+	
+	public ValidateXSD(String xsdFile){
+		BudgetCatXDS = xsdFile;
+	}
+	    public boolean validateXMLAgainstSchema(String file) {
 	      	
 	        boolean valid = false;
 	        valid = validateXMLSchema(file);
-	        //if(!valid){
-	        	System.out.println(file + " validates against " + BUDGETCATXDS + " ? " + valid);
-	       // }
+	        if(!valid){
+	        	System.out.println(file + " validates against " + BudgetCatXDS + " ? " + valid);
+	        }
 	        
 	        return valid;
 	      }
 	     
-	    private static boolean validateXMLSchema(String xmlPath){
+	    private boolean validateXMLSchema(String xmlPath){
 	         boolean valid = true;
 	        try {
 	        	
 	            SchemaFactory factory = 
 	                    SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-	            Schema schema = factory.newSchema(new File(BUDGETCATXDS));
+	            Schema schema = factory.newSchema(new File(BudgetCatXDS));
 	            Validator validator = schema.newValidator();
 	            validator.validate(new StreamSource(new File(xmlPath)));
 	        } catch (IOException|SAXException e) {
